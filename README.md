@@ -1,3 +1,11 @@
+# gif.js - Inline Worker Blob
+
+This is a fork of https://github.com/jnordberg/gif.js that uses Blob to avoid local file:// security restrictions on the Worker script:
+
+ * iOS Safari: `SecurityError: The operation is insecure`
+ * Android Chrome: `Uncaught SecurityError: Failed to create a worker: script at '(path)/worker.js' cannot be accessed from origin 'null'.`
+
+The workaround was suggested in https://stackoverflow.com/a/33432215
 
 # gif.js
 
@@ -9,10 +17,9 @@ Uses typed arrays and web workers to render each frame in the background, it's r
 
 Works in browsers supporting: [Web Workers](http://www.w3.org/TR/workers/), [File API](http://www.w3.org/TR/FileAPI/) and [Typed Arrays](https://www.khronos.org/registry/typedarray/specs/latest/)
 
-
 ## Usage
 
-Include `gif.js` found in `dist/` in your page. Also make sure to have `gif.worker.js` in the same location.
+Include `gif.js` found in `dist/` in your page. This fork does *not* require you to have `gif.worker.js` in the same location since it includes the worker source in `dist/gif.js`.
 
 ```javascript
 var gif = new GIF({
@@ -46,7 +53,7 @@ Options can be passed to the constructor or using the `setOptions` method.
 | repeat       | `0`             | repeat count, `-1` = no repeat, `0` = forever      |
 | quality      | `10`            | pixel sample interval, lower is better             |
 | workers      | `2`             | number of web workers to spawn                     |
-| workerScript | `gif.worker.js` | url to load worker script from                     |
+| workerScript | `gif.worker.js` | **UNUSED** url to load worker script from                     |
 | background   | `#fff`          | background color where source image is transparent |
 | width        | `null`          | output image width                                 |
 | height       | `null`          | output image height                                |
@@ -54,7 +61,7 @@ Options can be passed to the constructor or using the `setOptions` method.
 | dither       | `false`         | dithering method, e.g. `FloydSteinberg-serpentine` |
 | debug        | `false`         | whether to print debug information to console      |
 
-If width or height is `null` image size will be deteremined by first frame added.
+If width or height is `null` image size will be determined by first frame added.
 
 Available dithering methods are:
 
